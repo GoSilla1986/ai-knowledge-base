@@ -1206,55 +1206,124 @@
         <h2 style="margin-bottom: 24px;">Add New Entry</h2>
 
         <form id="addEntryForm">
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Title *</label>
-                    <input type="text" id="entryTitle" required placeholder="e.g. Prompt Engineering">
-                    <div class="form-hint">Short, descriptive title</div>
-                </div>
-
-                <div class="form-group">
-                    <label>Category *</label>
-                    <select id="entryCategory" required>
-                        <option value="">Select category...</option>
-                        <option value="orchestration">Orchestration</option>
-                        <option value="agents">Agents</option>
-                        <option value="memory">Memory</option>
-                        <option value="rag">RAG</option>
-                        <option value="evals">Evals</option>
-                        <option value="architecture">Architecture</option>
-                    </select>
-                </div>
-            </div>
-
             <div class="form-group">
-                <label>Summary *</label>
-                <textarea id="entrySummary" required placeholder="One sentence description..."></textarea>
-                <div class="form-hint">1-2 sentences max</div>
+                <label>Entry Type *</label>
+                <select id="entryType" required>
+                    <option value="">Select type...</option>
+                    <option value="concept">Concept</option>
+                    <option value="person">Person</option>
+                </select>
+                <div class="form-hint">Choose what you want to add</div>
             </div>
 
-            <div class="form-row">
+            <!-- CONCEPT FIELDS -->
+            <div id="conceptFields" style="display: none;">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Title *</label>
+                        <input type="text" id="entryTitle" placeholder="e.g. Prompt Engineering">
+                        <div class="form-hint">Short, descriptive title</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Category *</label>
+                        <select id="entryCategory">
+                            <option value="">Select category...</option>
+                            <option value="orchestration">Orchestration</option>
+                            <option value="agents">Agents</option>
+                            <option value="memory">Memory</option>
+                            <option value="rag">RAG</option>
+                            <option value="evals">Evals</option>
+                            <option value="architecture">Architecture</option>
+                        </select>
+                    </div>
+                    </div>
+
                 <div class="form-group">
-                    <label>Author *</label>
-                    <input type="text" id="entryAuthor" required placeholder="Your name">
+                    <label>Summary *</label>
+                    <textarea id="entrySummary" placeholder="One sentence description..."></textarea>
+                    <div class="form-hint">1-2 sentences max</div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Author *</label>
+                        <input type="text" id="entryAuthor" placeholder="Your name">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Date *</label>
+                        <input type="text" id="entryDate" placeholder="e.g. June 2025">
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label>Date *</label>
-                    <input type="text" id="entryDate" required placeholder="e.g. June 2025">
+                    <label>Content (HTML) *</label>
+                    <textarea id="entryContent" placeholder="<h3>What is it?</h3>&#10;<p>Your explanation...</p>&#10;&#10;<div class=&quot;callout&quot;>Important note</div>&#10;&#10;<h3>Why does it matter?</h3>&#10;<p>More details...</p>" style="min-height: 200px;"></textarea>
+                    <div class="form-hint">Use HTML tags: &lt;h3&gt;, &lt;p&gt;, &lt;ul&gt;, &lt;li&gt;, &lt;div class="callout"&gt;</div>
+                </div>
+
+                <div class="form-group">
+                    <label>References</label>
+                    <div id="referencesContainer"></div>
+                    <button type="button" class="add-reference-btn" id="addReferenceBtn">+ Add Reference</button>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label>Content (HTML) *</label>
-                <textarea id="entryContent" required placeholder="<h3>What is it?</h3>&#10;<p>Your explanation...</p>&#10;&#10;<div class=&quot;callout&quot;>Important note</div>&#10;&#10;<h3>Why does it matter?</h3>&#10;<p>More details...</p>" style="min-height: 200px;"></textarea>
-                <div class="form-hint">Use HTML tags: &lt;h3&gt;, &lt;p&gt;, &lt;ul&gt;, &lt;li&gt;, &lt;div class="callout"&gt;</div>
-            </div>
+            <!-- PERSON FIELDS -->
+            <div id="personFields" style="display: none;">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Full Name *</label>
+                        <input type="text" id="personName" placeholder="e.g. Max Mustermann">
+                    </div>
 
-            <div class="form-group">
-                <label>References</label>
-                <div id="referencesContainer"></div>
-                <button type="button" class="add-reference-btn" id="addReferenceBtn">+ Add Reference</button>
+                    <div class="form-group">
+                        <label>Initials *</label>
+                        <input type="text" id="personInitials" placeholder="e.g. MM" maxlength="3">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Role *</label>
+                        <input type="text" id="personRole" placeholder="e.g. Designer – AI Experiences">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Type *</label>
+                        <select id="personType">
+                            <option value="">Select type...</option>
+                            <option value="design">Design</option>
+                            <option value="dev">Developer</option>
+                            <option value="pm">Product Manager</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Area *</label>
+                    <input type="text" id="personArea" placeholder="e.g. Orchestration, Concepts">
+                    <div class="form-hint">Main focus area</div>
+                </div>
+
+                <div class="form-group">
+                    <label>Ask About (comma-separated) *</label>
+                    <input type="text" id="personAskAbout" placeholder="e.g. Strategy, Vision, Alignment">
+                    <div class="form-hint">Topics this person can help with (separate with commas)</div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Slack Handle *</label>
+                        <input type="text" id="personSlack" placeholder="e.g. @max.mustermann">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email *</label>
+                        <input type="email" id="personEmail" placeholder="e.g. max.mustermann@sap.com">
+                    </div>
+                </div>
             </div>
 
             <div class="modal-actions">
@@ -1739,6 +1808,27 @@ loadData();
 // ===================== ADD ENTRY FUNCTIONALITY =====================
 let referenceCount = 0;
 
+// Entry Type Switcher
+document.getElementById('entryType').addEventListener('change', (e) => {
+    const conceptFields = document.getElementById('conceptFields');
+    const personFields = document.getElementById('personFields');
+
+    if (e.target.value === 'concept') {
+        conceptFields.style.display = 'block';
+        personFields.style.display = 'none';
+    } else if (e.target.value === 'person') {
+        conceptFields.style.display = 'none';
+        personFields.style.display = 'block';
+    } else {
+        conceptFields.style.display = 'none';
+        personFields.style.display = 'none';
+    }
+
+    // Reset JSON output
+    document.getElementById('jsonOutput').classList.remove('show');
+    document.getElementById('copyJsonBtn').style.display = 'none';
+});
+
 // Open Add Entry Modal
 document.getElementById('addEntryBtn').addEventListener('click', () => {
     document.getElementById('addModal').classList.add('open');
@@ -1758,6 +1848,8 @@ function closeAddModal() {
     document.getElementById('jsonOutput').textContent = '';
     document.getElementById('copyJsonBtn').style.display = 'none';
     document.getElementById('successMessage').classList.remove('show');
+    document.getElementById('conceptFields').style.display = 'none';
+    document.getElementById('personFields').style.display = 'none';
     referenceCount = 0;
 }
 
@@ -1790,6 +1882,21 @@ function removeReference(id) {
 
 // Generate JSON
 document.getElementById('generateJsonBtn').addEventListener('click', () => {
+    const entryType = document.getElementById('entryType').value;
+
+    if (!entryType) {
+        alert('Please select an entry type (Concept or Person)');
+        return;
+    }
+
+    if (entryType === 'concept') {
+        generateConceptJSON();
+    } else if (entryType === 'person') {
+        generatePersonJSON();
+    }
+});
+
+function generateConceptJSON() {
     const title = document.getElementById('entryTitle').value.trim();
     const category = document.getElementById('entryCategory').value;
     const summary = document.getElementById('entrySummary').value.trim();
@@ -1814,7 +1921,7 @@ document.getElementById('generateJsonBtn').addEventListener('click', () => {
         }
     });
 
-    // Get next ID (concepts.length + 1)
+    // Get next ID
     const nextId = concepts.length + 1;
 
     // Create entry object
@@ -1840,7 +1947,50 @@ document.getElementById('generateJsonBtn').addEventListener('click', () => {
 
     // Scroll to bottom
     document.querySelector('.add-modal').scrollTop = document.querySelector('.add-modal').scrollHeight;
-});
+}
+
+function generatePersonJSON() {
+    const name = document.getElementById('personName').value.trim();
+    const initials = document.getElementById('personInitials').value.trim().toUpperCase();
+    const role = document.getElementById('personRole').value.trim();
+    const type = document.getElementById('personType').value;
+    const area = document.getElementById('personArea').value.trim();
+    const askAbout = document.getElementById('personAskAbout').value.trim();
+    const slack = document.getElementById('personSlack').value.trim();
+    const email = document.getElementById('personEmail').value.trim();
+
+    // Validation
+    if (!name || !initials || !role || !type || !area || !askAbout || !slack || !email) {
+        alert('Please fill in all required fields (*)');
+        return;
+    }
+
+    // Parse askAbout into array
+    const askAboutArray = askAbout.split(',').map(item => item.trim()).filter(item => item);
+
+    // Create person object
+    const newPerson = {
+        name: name,
+        initials: initials,
+        role: role,
+        type: type,
+        area: area,
+        askAbout: askAboutArray,
+        slack: slack,
+        email: email
+    };
+
+    // Generate formatted JSON
+    const jsonOutput = JSON.stringify(newPerson, null, 2);
+
+    // Show JSON output
+    document.getElementById('jsonOutput').textContent = jsonOutput;
+    document.getElementById('jsonOutput').classList.add('show');
+    document.getElementById('copyJsonBtn').style.display = 'inline-block';
+
+    // Scroll to bottom
+    document.querySelector('.add-modal').scrollTop = document.querySelector('.add-modal').scrollHeight;
+}
 
 // Copy JSON to clipboard
 document.getElementById('copyJsonBtn').addEventListener('click', () => {
