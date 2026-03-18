@@ -1,0 +1,190 @@
+{
+  "concepts": [
+    {
+      "id": 1,
+      "title": "Orchestration",
+      "category": "orchestration",
+      "summary": "How Joule coordinates between multiple services, models, and capabilities to fulfill a single user request.",
+      "author": "Neslihan",
+      "date": "May 2025",
+      "lastUpdated": "2025-05-10",
+      "references": [
+        {
+          "title": "What is Orchestration (internal doc)",
+          "url": "#"
+        },
+        {
+          "title": "Joule Architecture Overview",
+          "url": "#"
+        }
+      ],
+      "content": "<h3>What is it?</h3><p>Orchestration is the brain behind Joule. When a user asks something, the orchestrator decides which capabilities to call, in what order, and how to combine the results into one coherent response.</p><div class=\"callout\">Think of it like a conductor in an orchestra — each instrument (service) plays its part, but the conductor decides the timing and harmony.</div><h3>Why does it matter for designers?</h3><p>Orchestration directly affects response time, the types of answers Joule can give, and what happens when something goes wrong. Understanding it helps you design better loading states, error handling, and user expectations.</p><h3>Key things to know</h3><ul><li>Joule uses a planner-based orchestration approach</li><li>Multiple capabilities can be chained in a single turn</li><li>The orchestrator handles fallback logic when a capability fails</li><li>It decides whether to ask the user for clarification or proceed</li></ul>"
+    },
+    {
+      "id": 2,
+      "title": "Agents",
+      "category": "agents",
+      "summary": "Autonomous AI components that can plan, use tools, and complete multi-step tasks on behalf of the user.",
+      "author": "Josch",
+      "date": "May 2025",
+      "lastUpdated": "2025-05-12",
+      "references": [
+        {
+          "title": "CxD Tools & Practice Research",
+          "url": "#"
+        },
+        {
+          "title": "Agent Architecture Diagram",
+          "url": "#"
+        }
+      ],
+      "content": "<h3>What is it?</h3><p>An agent is an AI that doesn't just respond — it acts. It can break down a goal into steps, decide which tools to use, execute actions, and adjust its plan based on results.</p><div class=\"callout\">If a chatbot is like texting a friend for advice, an agent is like hiring an assistant who goes and does the thing for you.</div><h3>Why does it matter for designers?</h3><p>Agents introduce new design challenges: How do you show progress on multi-step tasks? How much autonomy should the agent have? When should it check back with the user?</p><h3>Key things to know</h3><ul><li>Agents use a loop of: Plan → Act → Observe → Repeat</li><li>They can call APIs, query databases, and trigger workflows</li><li>Trust and transparency are critical — users need to understand what the agent is doing</li><li>Joule's agents are scoped to specific SAP domains (HR, Procurement, etc.)</li></ul>"
+    },
+    {
+      "id": 3,
+      "title": "Memory",
+      "category": "memory",
+      "summary": "How Joule retains context within and across conversations to provide more relevant and personalized responses.",
+      "author": "Daniel",
+      "date": "May 2025",
+      "lastUpdated": "2025-05-08",
+      "references": [
+        {
+          "title": "Memory Systems in AI",
+          "url": "#"
+        },
+        {
+          "title": "Privacy & Data Governance Guidelines",
+          "url": "#"
+        }
+      ],
+      "content": "<h3>What is it?</h3><p>Memory is the system's ability to retain and recall information. This includes short-term memory (within a conversation) and long-term memory (across sessions).</p><div class=\"callout\">Without memory, every message is a blank slate. With memory, Joule can build on what it already knows about you and your context.</div><h3>Why does it matter for designers?</h3><p>Memory affects personalization, conversation flow, and user trust. Users expect Joule to \"remember\" things — but they also need control over what's stored.</p><h3>Key things to know</h3><ul><li>Short-term: conversation context (what was said in this session)</li><li>Long-term: user preferences, past interactions, role-based context</li><li>Privacy and data governance are critical considerations</li><li>Memory can be explicit (user tells Joule) or implicit (inferred from behavior)</li></ul>"
+    },
+    {
+      "id": 4,
+      "title": "RAG (Retrieval-Augmented Generation)",
+      "category": "rag",
+      "summary": "A technique that lets Joule pull in real, up-to-date information before generating a response.",
+      "author": "Josch",
+      "date": "May 2025",
+      "lastUpdated": "2025-05-11",
+      "references": [
+        {
+          "title": "RAG Implementation Guide",
+          "url": "#"
+        },
+        {
+          "title": "Knowledge Base Architecture",
+          "url": "#"
+        }
+      ],
+      "content": "<h3>What is it?</h3><p>RAG combines two steps: first, retrieve relevant documents or data from a knowledge source; then, use that information to generate an accurate response.</p><div class=\"callout\">Imagine writing an essay. Without RAG, you write from memory (which might be wrong). With RAG, you first look up your notes, then write — much more accurate.</div><h3>Why does it matter for designers?</h3><p>RAG means Joule can give answers grounded in real data instead of \"hallucinating.\" It also means we can show sources, build trust, and design for citation patterns.</p><h3>Key things to know</h3><ul><li>RAG pulls from knowledge bases, documents, SAP data</li><li>Quality depends on what's in the retrieval index</li><li>Designers should consider: How do we show sources? What if retrieval fails?</li><li>RAG is used heavily in Joule for domain-specific accuracy</li></ul>"
+    },
+    {
+      "id": 5,
+      "title": "Evaluations (Evals)",
+      "category": "evals",
+      "summary": "How we measure whether Joule's responses are actually good — accuracy, helpfulness, safety, and more.",
+      "author": "Daniel",
+      "date": "May 2025",
+      "lastUpdated": "2025-05-09",
+      "references": [
+        {
+          "title": "Eval Framework Documentation",
+          "url": "#"
+        },
+        {
+          "title": "Quality Metrics Dashboard",
+          "url": "#"
+        }
+      ],
+      "content": "<h3>What is it?</h3><p>Evals are systematic ways to test and measure AI output quality. They can be automated (metrics, benchmarks) or human-driven (ratings, comparisons).</p><div class=\"callout\">Evals are to AI what usability testing is to design — without them, you're guessing whether it works.</div><h3>Why does it matter for designers?</h3><p>Understanding evals helps designers define what \"good\" looks like, contribute to quality criteria, and interpret when the AI is underperforming.</p><h3>Key things to know</h3><ul><li>Common metrics: accuracy, relevance, groundedness, safety</li><li>Evals can be run on specific tasks or end-to-end flows</li><li>Designers can help define eval criteria based on user expectations</li><li>Red-teaming is a form of eval focused on finding failure modes</li></ul>"
+    },
+    {
+      "id": 6,
+      "title": "System Architecture Overview",
+      "category": "architecture",
+      "summary": "A high-level view of how Joule's components connect — from user input to AI response and back.",
+      "author": "Neslihan",
+      "date": "May 2025",
+      "lastUpdated": "2025-05-13",
+      "references": [
+        {
+          "title": "Joule for UX Draft (Johannes Wenzel)",
+          "url": "#"
+        },
+        {
+          "title": "Architecture Diagram (Miro)",
+          "url": "#"
+        },
+        {
+          "title": "Internal Tech Spec",
+          "url": "#"
+        }
+      ],
+      "content": "<h3>What is it?</h3><p>Joule's architecture is the blueprint of how all the pieces fit together: the UI layer, the orchestrator, capabilities, data services, and the LLM.</p><h3>The flow (simplified)</h3><ul><li><strong>User Input</strong> → Message enters through the Joule UI</li><li><strong>Orchestrator</strong> → Determines intent and routes to the right capability</li><li><strong>Capability</strong> → Executes the task (may call APIs, run RAG, etc.)</li><li><strong>LLM</strong> → Generates natural language response</li><li><strong>Response</strong> → Delivered back to the user with appropriate UI</li></ul><div class=\"callout\">You don't need to know every microservice. But knowing this flow helps you understand where latency, errors, and design decisions live.</div><h3>Why does it matter for designers?</h3><p>Each layer in the architecture introduces potential design touchpoints: loading states, error messages, progressive disclosure, and feedback loops.</p>"
+    }
+  ],
+  "people": [
+    {
+      "name": "Johannes Wenzel",
+      "initials": "JW",
+      "role": "Joule for UX Lead",
+      "type": "design",
+      "area": "Design & UX Strategy",
+      "askAbout": ["Strategy", "Vision", "Stakeholder Alignment"],
+      "slack": "@johannes.wenzel",
+      "email": "johannes.wenzel@sap.com"
+    },
+    {
+      "name": "Neslihan Köse",
+      "initials": "NK",
+      "role": "Designer – AI Experiences",
+      "type": "design",
+      "area": "Orchestration, Concepts",
+      "askAbout": ["Orchestration", "AI Concepts", "Documentation"],
+      "slack": "@neslihan.kose",
+      "email": "neslihan.kose@sap.com"
+    },
+    {
+      "name": "Josch Bauer",
+      "initials": "JB",
+      "role": "Designer – AI Experiences",
+      "type": "design",
+      "area": "CxD Tools & Practice",
+      "askAbout": ["Agents", "Tooling", "Practice"],
+      "slack": "@josch.bauer",
+      "email": "josch.bauer@sap.com"
+    },
+    {
+      "name": "Daniel Müller",
+      "initials": "DM",
+      "role": "Designer – AI Experiences",
+      "type": "design",
+      "area": "CxD Tools & Practice",
+      "askAbout": ["Memory", "Evals", "Quality"],
+      "slack": "@daniel.mueller",
+      "email": "daniel.mueller@sap.com"
+    },
+    {
+      "name": "Alex Chen",
+      "initials": "AC",
+      "role": "Engineering Lead – Joule",
+      "type": "dev",
+      "area": "Orchestration & Agents",
+      "askAbout": ["Technical Architecture", "Implementation", "APIs"],
+      "slack": "@alex.chen",
+      "email": "alex.chen@sap.com"
+    },
+    {
+      "name": "Priya Sharma",
+      "initials": "PS",
+      "role": "Product Manager – Joule",
+      "type": "pm",
+      "area": "Roadmap & Strategy",
+      "askAbout": ["Roadmap", "Priorities", "Customer Needs"],
+      "slack": "@priya.sharma",
+      "email": "priya.sharma@sap.com"
+    }
+  ]
+}

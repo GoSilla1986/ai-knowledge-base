@@ -1,0 +1,1876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Knowledge Base – AI Experiences Design Team</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --color-bg: #f5f6f7;
+            --color-white: #ffffff;
+            --color-text: #1d2d3e;
+            --color-text-secondary: #556b82;
+            --color-accent: #0070f2;
+            --color-accent-hover: #0058c4;
+            --color-accent-light: #e8f1fd;
+            --color-border: #e0e3e7;
+            --color-tag-orchestration: #e8f1fd;
+            --color-tag-agents: #fef3e0;
+            --color-tag-memory: #e8fdf0;
+            --color-tag-rag: #fde8f1;
+            --color-tag-evals: #f0e8fd;
+            --color-tag-architecture: #e0f0f7;
+            --color-tag-text-orchestration: #0070f2;
+            --color-tag-text-agents: #c47a0a;
+            --color-tag-text-memory: #0a8a4a;
+            --color-tag-text-rag: #c40a6a;
+            --color-tag-text-evals: #6a0ac4;
+            --color-tag-text-architecture: #0a6a8a;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+            --shadow-lg: 0 8px 24px rgba(0,0,0,0.1);
+            --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        body {
+            font-family: var(--font);
+            background: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.6;
+        }
+
+        /* ===================== NAV ===================== */
+        nav {
+            background: var(--color-white);
+            border-bottom: 1px solid var(--color-border);
+            padding: 0 40px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-logo {
+            width: 32px;
+            height: 32px;
+            background: var(--color-accent);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .nav-title {
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--color-text);
+        }
+
+        .nav-title span {
+            color: var(--color-text-secondary);
+            font-weight: 400;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 4px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--color-text-secondary);
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 14px;
+            border-radius: var(--radius-sm);
+            transition: all 0.15s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--color-accent);
+            background: var(--color-accent-light);
+        }
+
+        /* ===================== MOBILE NAV ===================== */
+        .mobile-menu-btn {
+            display: none;
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            padding: 8px;
+            flex-direction: column;
+            gap: 4px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mobile-menu-btn span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            background: var(--color-text);
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+
+        .mobile-menu-btn.open span:nth-child(1) {
+            transform: translateY(6px) rotate(45deg);
+        }
+
+        .mobile-menu-btn.open span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-btn.open span:nth-child(3) {
+            transform: translateY(-6px) rotate(-45deg);
+        }
+
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            top: 56px;
+            left: 0;
+            right: 0;
+            background: var(--color-white);
+            border-bottom: 1px solid var(--color-border);
+            padding: 12px 20px;
+            z-index: 99;
+            flex-direction: column;
+            gap: 4px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .mobile-nav.open {
+            display: flex;
+        }
+
+        .mobile-nav a {
+            text-decoration: none;
+            color: var(--color-text-secondary);
+            font-size: 14px;
+            font-weight: 500;
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            transition: all 0.15s;
+        }
+
+        .mobile-nav a:hover,
+        .mobile-nav a.active {
+            color: var(--color-accent);
+            background: var(--color-accent-light);
+        }
+
+        /* ===================== HERO ===================== */
+        .hero {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 64px 40px 40px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 36px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 12px;
+        }
+
+        .hero p {
+            font-size: 17px;
+            color: var(--color-text-secondary);
+            max-width: 560px;
+            margin: 0 auto 32px;
+        }
+
+        /* ===================== SEARCH ===================== */
+        .search-container {
+            max-width: 560px;
+            margin: 0 auto 20px;
+            position: relative;
+        }
+
+        .search-container svg {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--color-text-secondary);
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 14px 20px 14px 48px;
+            font-size: 15px;
+            font-family: var(--font);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            background: var(--color-white);
+            box-shadow: var(--shadow-sm);
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .search-input:focus {
+            border-color: var(--color-accent);
+            box-shadow: 0 0 0 3px rgba(0, 112, 242, 0.12);
+        }
+
+        .search-input::placeholder {
+            color: #a0aab4;
+        }
+
+        /* ===================== FILTERS ===================== */
+        .filters {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 48px;
+            flex-wrap: wrap;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .filter-btn {
+            padding: 7px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            font-family: var(--font);
+            border: 1px solid var(--color-border);
+            border-radius: 100px;
+            background: var(--color-white);
+            color: var(--color-text-secondary);
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--color-accent);
+            color: var(--color-accent);
+        }
+
+        .filter-btn.active {
+            background: var(--color-accent);
+            color: white;
+            border-color: var(--color-accent);
+        }
+
+        /* ===================== SECTIONS ===================== */
+        .content {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 40px 80px;
+        }
+
+        .section {
+            margin-bottom: 56px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .section-header h2 {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .section-count {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--color-text-secondary);
+            background: var(--color-bg);
+            border: 1px solid var(--color-border);
+            padding: 2px 10px;
+            border-radius: 100px;
+        }
+
+        /* ===================== CARDS GRID ===================== */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 16px;
+        }
+
+        .card {
+            background: var(--color-white);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-md);
+            border-color: #c8cdd3;
+            transform: translateY(-1px);
+        }
+
+        .card-tag {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 3px 10px;
+            border-radius: 100px;
+            margin-bottom: 12px;
+        }
+
+        .card-tag[data-category="orchestration"] {
+            background: var(--color-tag-orchestration);
+            color: var(--color-tag-text-orchestration);
+        }
+        .card-tag[data-category="agents"] {
+            background: var(--color-tag-agents);
+            color: var(--color-tag-text-agents);
+        }
+        .card-tag[data-category="memory"] {
+            background: var(--color-tag-memory);
+            color: var(--color-tag-text-memory);
+        }
+        .card-tag[data-category="rag"] {
+            background: var(--color-tag-rag);
+            color: var(--color-tag-text-rag);
+        }
+        .card-tag[data-category="evals"] {
+            background: var(--color-tag-evals);
+            color: var(--color-tag-text-evals);
+        }
+        .card-tag[data-category="architecture"] {
+            background: var(--color-tag-architecture);
+            color: var(--color-tag-text-architecture);
+        }
+
+        .card h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .card p {
+            font-size: 14px;
+            color: var(--color-text-secondary);
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .card-meta {
+            margin-top: 16px;
+            padding-top: 12px;
+            border-top: 1px solid var(--color-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--color-text-secondary);
+        }
+
+        .card-author {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .avatar {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--color-accent-light);
+            color: var(--color-accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        /* ===================== PEOPLE CARDS ===================== */
+        .people-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 16px;
+        }
+
+        .person-card {
+            background: var(--color-white);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .person-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-1px);
+        }
+
+        .person-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            margin: 0 auto 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .person-avatar.dev {
+            background: var(--color-tag-orchestration);
+            color: var(--color-tag-text-orchestration);
+        }
+
+        .person-avatar.pm {
+            background: var(--color-tag-agents);
+            color: var(--color-tag-text-agents);
+        }
+
+        .person-avatar.design {
+            background: var(--color-tag-memory);
+            color: var(--color-tag-text-memory);
+        }
+
+        .person-card h3 {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .person-card .role {
+            font-size: 13px;
+            color: var(--color-text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .person-card .person-tag {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 500;
+            padding: 2px 10px;
+            border-radius: 100px;
+            background: var(--color-bg);
+            color: var(--color-text-secondary);
+            margin: 4px 2px;
+        }
+
+        .person-contact {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid var(--color-border);
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .contact-btn {
+            padding: 6px 12px;
+            font-size: 12px;
+            font-weight: 500;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            background: var(--color-white);
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            transition: all 0.15s;
+        }
+
+        .contact-btn:hover {
+            border-color: var(--color-accent);
+            color: var(--color-accent);
+            background: var(--color-accent-light);
+        }
+
+        /* ===================== MODAL ===================== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 200;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .modal-overlay.open {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            max-width: 720px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 40px;
+            position: relative;
+            box-shadow: var(--shadow-lg);
+            animation: modalIn 0.2s ease;
+        }
+
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.97) translateY(8px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: var(--color-bg);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: var(--color-text-secondary);
+            transition: all 0.15s;
+        }
+
+        .modal-close:hover {
+            background: var(--color-border);
+        }
+
+        .modal .card-tag {
+            margin-bottom: 16px;
+        }
+
+        .modal h2 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .modal .modal-subtitle {
+            font-size: 14px;
+            color: var(--color-text-secondary);
+            margin-bottom: 24px;
+        }
+
+        .modal .modal-body h3 {
+            font-size: 15px;
+            font-weight: 600;
+            margin: 20px 0 8px;
+        }
+
+        .modal .modal-body p {
+            font-size: 15px;
+            color: var(--color-text);
+            line-height: 1.7;
+            margin-bottom: 12px;
+        }
+
+        .modal .modal-body ul {
+            padding-left: 20px;
+            margin-bottom: 12px;
+        }
+
+        .modal .modal-body li {
+            font-size: 14px;
+            color: var(--color-text-secondary);
+            margin-bottom: 4px;
+            line-height: 1.6;
+        }
+
+        .modal .modal-body .callout {
+            background: var(--color-accent-light);
+            border-left: 3px solid var(--color-accent);
+            padding: 14px 18px;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            margin: 16px 0;
+            font-size: 14px;
+            color: var(--color-text);
+        }
+
+        .modal .modal-body a {
+            color: var(--color-accent);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .modal .modal-body a:hover {
+            text-decoration: underline;
+        }
+
+        .references {
+            margin-top: 24px;
+            padding: 20px;
+            background: var(--color-bg);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--color-border);
+        }
+
+        .references h3 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--color-text);
+        }
+
+        .reference-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            margin-bottom: 6px;
+            background: var(--color-white);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            text-decoration: none;
+            color: var(--color-text);
+            font-size: 13px;
+            transition: all 0.15s;
+        }
+
+        .reference-link:hover {
+            border-color: var(--color-accent);
+            background: var(--color-accent-light);
+        }
+
+        .reference-link svg {
+            width: 14px;
+            height: 14px;
+            color: var(--color-text-secondary);
+        }
+
+        /* ===================== CONTRIBUTE PAGE ===================== */
+        .contribute-page {
+            display: none;
+        }
+
+        .contribute-page.active {
+            display: block;
+        }
+
+        .contribute-header {
+            max-width: 720px;
+            margin: 0 auto 40px;
+            padding: 0 40px;
+        }
+
+        .contribute-header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .contribute-header p {
+            font-size: 17px;
+            color: var(--color-text-secondary);
+            line-height: 1.6;
+        }
+
+        .contribute-content {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        .step-card {
+            background: var(--color-white);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            padding: 28px;
+            margin-bottom: 20px;
+        }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: var(--color-accent);
+            color: white;
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        .step-card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .step-card p {
+            font-size: 15px;
+            color: var(--color-text-secondary);
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .step-card code {
+            background: var(--color-bg);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'SF Mono', Monaco, monospace;
+            font-size: 13px;
+            color: var(--color-accent);
+        }
+
+        .code-block {
+            background: var(--color-bg);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            margin: 12px 0;
+            font-family: 'SF Mono', Monaco, monospace;
+            font-size: 13px;
+            line-height: 1.5;
+            overflow-x: auto;
+        }
+
+        /* ===================== ADD ENTRY BUTTON ===================== */
+        .add-entry-btn {
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            font-family: var(--font);
+            background: var(--color-accent);
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.15s;
+        }
+
+        .add-entry-btn:hover {
+            background: var(--color-accent-hover);
+        }
+
+        .add-entry-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* ===================== ADD ENTRY MODAL ===================== */
+        .add-modal {
+            max-width: 900px;
+            max-height: 90vh;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--color-text);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 14px;
+            font-size: 14px;
+            font-family: var(--font);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            background: var(--color-white);
+            outline: none;
+            transition: all 0.15s;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+            font-family: var(--font);
+            line-height: 1.5;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--color-accent);
+            box-shadow: 0 0 0 3px rgba(0, 112, 242, 0.12);
+        }
+
+        .form-hint {
+            font-size: 12px;
+            color: var(--color-text-secondary);
+            margin-top: 4px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .reference-inputs {
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            background: var(--color-bg);
+            margin-bottom: 12px;
+        }
+
+        .reference-inputs .form-row {
+            margin-bottom: 0;
+        }
+
+        .add-reference-btn,
+        .remove-reference-btn {
+            padding: 6px 12px;
+            font-size: 13px;
+            font-weight: 500;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            background: var(--color-white);
+            color: var(--color-text-secondary);
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .add-reference-btn:hover {
+            border-color: var(--color-accent);
+            color: var(--color-accent);
+            background: var(--color-accent-light);
+        }
+
+        .remove-reference-btn {
+            background: #fff1f0;
+            border-color: #ffa39e;
+            color: #cf1322;
+            padding: 4px 8px;
+            font-size: 12px;
+        }
+
+        .remove-reference-btn:hover {
+            background: #ffccc7;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px solid var(--color-border);
+        }
+
+        .btn {
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: 500;
+            font-family: var(--font);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all 0.15s;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--color-accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--color-accent-hover);
+        }
+
+        .btn-secondary {
+            background: var(--color-white);
+            color: var(--color-text-secondary);
+            border: 1px solid var(--color-border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--color-accent);
+            color: var(--color-accent);
+        }
+
+        .json-output {
+            background: var(--color-bg);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            margin-top: 20px;
+            font-family: 'SF Mono', Monaco, monospace;
+            font-size: 12px;
+            line-height: 1.5;
+            max-height: 300px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-break: break-word;
+            display: none;
+        }
+
+        .json-output.show {
+            display: block;
+        }
+
+        .copy-btn {
+            margin-top: 12px;
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            background: var(--color-accent);
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .copy-btn:hover {
+            background: var(--color-accent-hover);
+        }
+
+        .copy-btn.copied {
+            background: #52c41a;
+        }
+
+        .success-message {
+            background: #f6ffed;
+            border: 1px solid #b7eb8f;
+            color: #52c41a;
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            margin-top: 16px;
+            display: none;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .success-message.show {
+            display: flex;
+        }
+
+        /* ===================== EMPTY STATE ===================== */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--color-text-secondary);
+        }
+
+        .empty-state svg {
+            margin-bottom: 16px;
+            opacity: 0.4;
+        }
+
+        .empty-state h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--color-text);
+        }
+
+        .empty-state p {
+            font-size: 14px;
+        }
+
+        /* ===================== RESPONSIVE ===================== */
+        @media (max-width: 700px) {
+            nav { padding: 0 20px; }
+            .hero { padding: 40px 20px 24px; }
+            .hero h1 { font-size: 28px; }
+            .content { padding: 0 20px 60px; }
+            .cards-grid { grid-template-columns: 1fr; }
+            .people-grid { grid-template-columns: 1fr; }
+            .modal { padding: 24px; margin: 20px; }
+            .nav-links { display: none; }
+            .mobile-menu-btn { display: flex; }
+            .contribute-header { padding: 0 20px; }
+            .contribute-content { padding: 0 20px; }
+            .add-entry-btn { display: none; }
+            .form-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+    <div class="nav-left">
+        <div class="nav-logo">KB</div>
+        <div class="nav-title">Knowledge Base <span>· AI Experiences</span></div>
+    </div>
+    <div class="nav-links">
+        <a href="#" class="active" data-view="all">All</a>
+        <a href="#" data-view="concepts">Concepts</a>
+        <a href="#" data-view="people">People</a>
+        <a href="#" data-view="contribute">How to Contribute</a>
+    </div>
+    <button class="add-entry-btn" id="addEntryBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        Add Entry
+    </button>
+    <button class="mobile-menu-btn" id="mobileMenuBtn">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+</nav>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav" id="mobileNav">
+    <a href="#" class="active" data-view="all">All</a>
+    <a href="#" data-view="concepts">Concepts</a>
+    <a href="#" data-view="people">People</a>
+    <a href="#" data-view="contribute">How to Contribute</a>
+</div>
+
+<!-- HERO -->
+<div class="hero" id="hero">
+    <h1>AI Knowledge Base</h1>
+    <p>A designer-friendly guide to Joule's architecture, key AI concepts, and the people landscape.</p>
+    <div class="search-container">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" class="search-input" placeholder="Search concepts, people, architecture…" id="searchInput">
+    </div>
+    <div class="filters">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="orchestration">Orchestration</button>
+        <button class="filter-btn" data-filter="agents">Agents</button>
+        <button class="filter-btn" data-filter="memory">Memory</button>
+        <button class="filter-btn" data-filter="rag">RAG</button>
+        <button class="filter-btn" data-filter="evals">Evals</button>
+        <button class="filter-btn" data-filter="architecture">Architecture</button>
+    </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content" id="mainContent">
+
+    <!-- CONCEPTS SECTION -->
+    <div class="section" id="concepts-section">
+        <div class="section-header">
+            <h2>Core Concepts</h2>
+            <span class="section-count" id="concepts-count">6 entries</span>
+        </div>
+        <div class="cards-grid" id="concepts-grid">
+            <!-- Cards injected by JS -->
+        </div>
+    </div>
+
+    <!-- PEOPLE SECTION -->
+    <div class="section" id="people-section">
+        <div class="section-header">
+            <h2>Who's Who</h2>
+            <span class="section-count" id="people-count">6 people</span>
+        </div>
+        <div class="people-grid" id="people-grid">
+            <!-- People cards injected by JS -->
+        </div>
+    </div>
+
+</div>
+
+<!-- CONTRIBUTE PAGE -->
+<div class="contribute-page" id="contributePage">
+    <div class="hero">
+        <div class="contribute-header">
+            <h1>How to Contribute</h1>
+            <p>This knowledge base lives and grows with your input. Here's how to add or update content.</p>
+        </div>
+    </div>
+    <div class="contribute-content">
+        <div class="step-card">
+            <div class="step-number">1</div>
+            <h3>Identify What's Missing or Outdated</h3>
+            <p>Think about questions you've had to ask multiple times, docs that helped you, or concepts that clicked after talking to someone. That's usually a sign something should be documented here.</p>
+        </div>
+
+        <div class="step-card">
+            <div class="step-number">2</div>
+            <h3>Open the Content File</h3>
+            <p>All content lives in a single JSON file that anyone on the team can edit. No coding skills needed — just follow the structure.</p>
+            <p>Location: <code>knowledge-base-data.json</code> (or ask Josch/Daniel for access)</p>
+        </div>
+
+        <div class="step-card">
+            <div class="step-number">3</div>
+            <h3>Add Your Entry</h3>
+            <p>Copy an existing entry and modify it. Here's the template:</p>
+            <div class="code-block">{
+  "id": 7,
+  "title": "Your Concept Title",
+  "category": "orchestration",
+  "summary": "One sentence description",
+  "author": "Your Name",
+  "date": "May 2025",
+  "lastUpdated": "2025-05-15",
+  "references": [
+    {
+      "title": "Link to source doc",
+      "url": "https://..."
+    }
+  ],
+  "content": "Your full explanation..."
+}</div>
+            <p><strong>Categories:</strong> orchestration, agents, memory, rag, evals, architecture</p>
+        </div>
+
+        <div class="step-card">
+            <div class="step-number">4</div>
+            <h3>Write Like a Designer, for Designers</h3>
+            <p>Use Neslihan's "What is Orchestration" as a template:</p>
+            <ul style="padding-left: 20px; margin-top: 8px;">
+                <li>Start with "What is it?" — plain language definition</li>
+                <li>Add an analogy or metaphor in a callout box</li>
+                <li>"Why does it matter for designers?" — connect to our work</li>
+                <li>"Key things to know" — bullets with practical takeaways</li>
+                <li>Link to source materials in the references section</li>
+            </ul>
+        </div>
+
+        <div class="step-card">
+            <div class="step-number">5</div>
+            <h3>Add References</h3>
+            <p>Always link back to source material — internal docs, Slack threads, Johannes' drafts, architecture diagrams. This builds trust and lets people go deeper.</p>
+        </div>
+
+        <div class="step-card">
+            <div class="step-number">6</div>
+            <h3>Save & Share</h3>
+            <p>Once you've added your entry, save the file and let the team know in Slack. Your contribution will appear on the site automatically.</p>
+        </div>
+
+        <div class="step-card" style="border: 2px solid var(--color-accent); background: var(--color-accent-light);">
+            <h3>Questions?</h3>
+            <p>Reach out to <strong>Josch</strong> or <strong>Daniel</strong> — we're here to help you get your first entry published.</p>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal">
+    <div class="modal">
+        <button class="modal-close" id="modalClose">✕</button>
+        <div id="modalContent"></div>
+    </div>
+</div>
+
+<!-- ADD ENTRY MODAL -->
+<div class="modal-overlay" id="addModal">
+    <div class="modal add-modal">
+        <button class="modal-close" id="addModalClose">✕</button>
+        <h2 style="margin-bottom: 24px;">Add New Entry</h2>
+
+        <form id="addEntryForm">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Title *</label>
+                    <input type="text" id="entryTitle" required placeholder="e.g. Prompt Engineering">
+                    <div class="form-hint">Short, descriptive title</div>
+                </div>
+
+                <div class="form-group">
+                    <label>Category *</label>
+                    <select id="entryCategory" required>
+                        <option value="">Select category...</option>
+                        <option value="orchestration">Orchestration</option>
+                        <option value="agents">Agents</option>
+                        <option value="memory">Memory</option>
+                        <option value="rag">RAG</option>
+                        <option value="evals">Evals</option>
+                        <option value="architecture">Architecture</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Summary *</label>
+                <textarea id="entrySummary" required placeholder="One sentence description..."></textarea>
+                <div class="form-hint">1-2 sentences max</div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Author *</label>
+                    <input type="text" id="entryAuthor" required placeholder="Your name">
+                </div>
+
+                <div class="form-group">
+                    <label>Date *</label>
+                    <input type="text" id="entryDate" required placeholder="e.g. June 2025">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Content (HTML) *</label>
+                <textarea id="entryContent" required placeholder="<h3>What is it?</h3>&#10;<p>Your explanation...</p>&#10;&#10;<div class=&quot;callout&quot;>Important note</div>&#10;&#10;<h3>Why does it matter?</h3>&#10;<p>More details...</p>" style="min-height: 200px;"></textarea>
+                <div class="form-hint">Use HTML tags: &lt;h3&gt;, &lt;p&gt;, &lt;ul&gt;, &lt;li&gt;, &lt;div class="callout"&gt;</div>
+            </div>
+
+            <div class="form-group">
+                <label>References</label>
+                <div id="referencesContainer"></div>
+                <button type="button" class="add-reference-btn" id="addReferenceBtn">+ Add Reference</button>
+            </div>
+
+            <div class="modal-actions">
+                <button type="button" class="btn btn-secondary" id="cancelBtn">Cancel</button>
+                <button type="button" class="btn btn-primary" id="generateJsonBtn">Generate JSON</button>
+            </div>
+
+            <div class="json-output" id="jsonOutput"></div>
+
+            <div style="display: flex; gap: 12px; margin-top: 12px;">
+                <button type="button" class="copy-btn" id="copyJsonBtn" style="display: none;">Copy JSON</button>
+            </div>
+
+            <div class="success-message" id="successMessage">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                JSON copied! Now paste it into knowledge-base-data.json
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+// ===================== DATA =====================
+// Data will be loaded from knowledge-base-data.json
+let concepts = [];
+let people = [];
+
+// Load data from JSON file
+async function loadData() {
+    try {
+        const response = await fetch('knowledge-base-data.json');
+        const data = await response.json();
+        concepts = data.concepts;
+        people = data.people;
+        renderConcepts();
+        renderPeople();
+    } catch (error) {
+        console.error('Error loading data:', error);
+        // Fallback to inline data if JSON file not found
+        concepts = [
+    {
+        id: 1,
+        title: "Orchestration",
+        category: "orchestration",
+        summary: "How Joule coordinates between multiple services, models, and capabilities to fulfill a single user request.",
+        author: "Neslihan",
+        date: "May 2025",
+        lastUpdated: "2025-05-10",
+        references: [
+            { title: "What is Orchestration (internal doc)", url: "#" },
+            { title: "Joule Architecture Overview", url: "#" }
+        ],
+        content: `
+            <h3>What is it?</h3>
+            <p>Orchestration is the brain behind Joule. When a user asks something, the orchestrator decides which capabilities to call, in what order, and how to combine the results into one coherent response.</p>
+            <div class="callout">Think of it like a conductor in an orchestra — each instrument (service) plays its part, but the conductor decides the timing and harmony.</div>
+            <h3>Why does it matter for designers?</h3>
+            <p>Orchestration directly affects response time, the types of answers Joule can give, and what happens when something goes wrong. Understanding it helps you design better loading states, error handling, and user expectations.</p>
+            <h3>Key things to know</h3>
+            <ul>
+                <li>Joule uses a planner-based orchestration approach</li>
+                <li>Multiple capabilities can be chained in a single turn</li>
+                <li>The orchestrator handles fallback logic when a capability fails</li>
+                <li>It decides whether to ask the user for clarification or proceed</li>
+            </ul>
+        `
+    },
+    {
+        id: 2,
+        title: "Agents",
+        category: "agents",
+        summary: "Autonomous AI components that can plan, use tools, and complete multi-step tasks on behalf of the user.",
+        author: "Josch",
+        date: "May 2025",
+        lastUpdated: "2025-05-12",
+        references: [
+            { title: "CxD Tools & Practice Research", url: "#" },
+            { title: "Agent Architecture Diagram", url: "#" }
+        ],
+        content: `
+            <h3>What is it?</h3>
+            <p>An agent is an AI that doesn't just respond — it acts. It can break down a goal into steps, decide which tools to use, execute actions, and adjust its plan based on results.</p>
+            <div class="callout">If a chatbot is like texting a friend for advice, an agent is like hiring an assistant who goes and does the thing for you.</div>
+            <h3>Why does it matter for designers?</h3>
+            <p>Agents introduce new design challenges: How do you show progress on multi-step tasks? How much autonomy should the agent have? When should it check back with the user?</p>
+            <h3>Key things to know</h3>
+            <ul>
+                <li>Agents use a loop of: Plan → Act → Observe → Repeat</li>
+                <li>They can call APIs, query databases, and trigger workflows</li>
+                <li>Trust and transparency are critical — users need to understand what the agent is doing</li>
+                <li>Joule's agents are scoped to specific SAP domains (HR, Procurement, etc.)</li>
+            </ul>
+        `
+    },
+    {
+        id: 3,
+        title: "Memory",
+        category: "memory",
+        summary: "How Joule retains context within and across conversations to provide more relevant and personalized responses.",
+        author: "Daniel",
+        date: "May 2025",
+        lastUpdated: "2025-05-08",
+        references: [
+            { title: "Memory Systems in AI", url: "#" },
+            { title: "Privacy & Data Governance Guidelines", url: "#" }
+        ],
+        content: `
+            <h3>What is it?</h3>
+            <p>Memory is the system's ability to retain and recall information. This includes short-term memory (within a conversation) and long-term memory (across sessions).</p>
+            <div class="callout">Without memory, every message is a blank slate. With memory, Joule can build on what it already knows about you and your context.</div>
+            <h3>Why does it matter for designers?</h3>
+            <p>Memory affects personalization, conversation flow, and user trust. Users expect Joule to "remember" things — but they also need control over what's stored.</p>
+            <h3>Key things to know</h3>
+            <ul>
+                <li>Short-term: conversation context (what was said in this session)</li>
+                <li>Long-term: user preferences, past interactions, role-based context</li>
+                <li>Privacy and data governance are critical considerations</li>
+                <li>Memory can be explicit (user tells Joule) or implicit (inferred from behavior)</li>
+            </ul>
+        `
+    },
+    {
+        id: 4,
+        title: "RAG (Retrieval-Augmented Generation)",
+        category: "rag",
+        summary: "A technique that lets Joule pull in real, up-to-date information before generating a response.",
+        author: "Josch",
+        date: "May 2025",
+        lastUpdated: "2025-05-11",
+        references: [
+            { title: "RAG Implementation Guide", url: "#" },
+            { title: "Knowledge Base Architecture", url: "#" }
+        ],
+        content: `
+            <h3>What is it?</h3>
+            <p>RAG combines two steps: first, retrieve relevant documents or data from a knowledge source; then, use that information to generate an accurate response.</p>
+            <div class="callout">Imagine writing an essay. Without RAG, you write from memory (which might be wrong). With RAG, you first look up your notes, then write — much more accurate.</div>
+            <h3>Why does it matter for designers?</h3>
+            <p>RAG means Joule can give answers grounded in real data instead of "hallucinating." It also means we can show sources, build trust, and design for citation patterns.</p>
+            <h3>Key things to know</h3>
+            <ul>
+                <li>RAG pulls from knowledge bases, documents, SAP data</li>
+                <li>Quality depends on what's in the retrieval index</li>
+                <li>Designers should consider: How do we show sources? What if retrieval fails?</li>
+                <li>RAG is used heavily in Joule for domain-specific accuracy</li>
+            </ul>
+        `
+    },
+    {
+        id: 5,
+        title: "Evaluations (Evals)",
+        category: "evals",
+        summary: "How we measure whether Joule's responses are actually good — accuracy, helpfulness, safety, and more.",
+        author: "Daniel",
+        date: "May 2025",
+        lastUpdated: "2025-05-09",
+        references: [
+            { title: "Eval Framework Documentation", url: "#" },
+            { title: "Quality Metrics Dashboard", url: "#" }
+        ],
+        content: `
+            <h3>What is it?</h3>
+            <p>Evals are systematic ways to test and measure AI output quality. They can be automated (metrics, benchmarks) or human-driven (ratings, comparisons).</p>
+            <div class="callout">Evals are to AI what usability testing is to design — without them, you're guessing whether it works.</div>
+            <h3>Why does it matter for designers?</h3>
+            <p>Understanding evals helps designers define what "good" looks like, contribute to quality criteria, and interpret when the AI is underperforming.</p>
+            <h3>Key things to know</h3>
+            <ul>
+                <li>Common metrics: accuracy, relevance, groundedness, safety</li>
+                <li>Evals can be run on specific tasks or end-to-end flows</li>
+                <li>Designers can help define eval criteria based on user expectations</li>
+                <li>Red-teaming is a form of eval focused on finding failure modes</li>
+            </ul>
+        `
+    },
+    {
+        id: 6,
+        title: "System Architecture Overview",
+        category: "architecture",
+        summary: "A high-level view of how Joule's components connect — from user input to AI response and back.",
+        author: "Neslihan",
+        date: "May 2025",
+        lastUpdated: "2025-05-13",
+        references: [
+            { title: "Joule for UX Draft (Johannes Wenzel)", url: "#" },
+            { title: "Architecture Diagram (Miro)", url: "#" },
+            { title: "Internal Tech Spec", url: "#" }
+        ],
+        content: `
+            <h3>What is it?</h3>
+            <p>Joule's architecture is the blueprint of how all the pieces fit together: the UI layer, the orchestrator, capabilities, data services, and the LLM.</p>
+            <h3>The flow (simplified)</h3>
+            <ul>
+                <li><strong>User Input</strong> → Message enters through the Joule UI</li>
+                <li><strong>Orchestrator</strong> → Determines intent and routes to the right capability</li>
+                <li><strong>Capability</strong> → Executes the task (may call APIs, run RAG, etc.)</li>
+                <li><strong>LLM</strong> → Generates natural language response</li>
+                <li><strong>Response</strong> → Delivered back to the user with appropriate UI</li>
+            </ul>
+            <div class="callout">You don't need to know every microservice. But knowing this flow helps you understand where latency, errors, and design decisions live.</div>
+            <h3>Why does it matter for designers?</h3>
+            <p>Each layer in the architecture introduces potential design touchpoints: loading states, error messages, progressive disclosure, and feedback loops.</p>
+        `
+    }
+];
+        people = [
+    {
+        name: "Johannes Wenzel",
+        initials: "JW",
+        role: "Joule for UX Lead",
+        type: "design",
+        area: "Design & UX Strategy",
+        askAbout: ["Strategy", "Vision", "Stakeholder Alignment"],
+        slack: "@johannes.wenzel",
+        email: "johannes.wenzel@sap.com"
+    },
+    {
+        name: "Neslihan Köse",
+        initials: "NK",
+        role: "Designer – AI Experiences",
+        type: "design",
+        area: "Orchestration, Concepts",
+        askAbout: ["Orchestration", "AI Concepts", "Documentation"],
+        slack: "@neslihan.kose",
+        email: "neslihan.kose@sap.com"
+    },
+    {
+        name: "Josch Bauer",
+        initials: "JB",
+        role: "Designer – AI Experiences",
+        type: "design",
+        area: "CxD Tools & Practice",
+        askAbout: ["Agents", "Tooling", "Practice"],
+        slack: "@josch.bauer",
+        email: "josch.bauer@sap.com"
+    },
+    {
+        name: "Daniel Müller",
+        initials: "DM",
+        role: "Designer – AI Experiences",
+        type: "design",
+        area: "CxD Tools & Practice",
+        askAbout: ["Memory", "Evals", "Quality"],
+        slack: "@daniel.mueller",
+        email: "daniel.mueller@sap.com"
+    },
+    {
+        name: "Alex Chen",
+        initials: "AC",
+        role: "Engineering Lead – Joule",
+        type: "dev",
+        area: "Orchestration & Agents",
+        askAbout: ["Technical Architecture", "Implementation", "APIs"],
+        slack: "@alex.chen",
+        email: "alex.chen@sap.com"
+    },
+    {
+        name: "Priya Sharma",
+        initials: "PS",
+        role: "Product Manager – Joule",
+        type: "pm",
+        area: "Roadmap & Strategy",
+        askAbout: ["Roadmap", "Priorities", "Customer Needs"],
+        slack: "@priya.sharma",
+        email: "priya.sharma@sap.com"
+    },
+];
+        renderConcepts();
+        renderPeople();
+    }
+}
+
+// ===================== RENDER =====================
+function renderConcepts(filtered) {
+    const grid = document.getElementById('concepts-grid');
+    const data = filtered || concepts;
+
+    if (data.length === 0) {
+        grid.innerHTML = `
+            <div class="empty-state" style="grid-column: 1 / -1;">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                <h3>No results found</h3>
+                <p>Try a different search term or filter.</p>
+            </div>`;
+        document.getElementById('concepts-count').textContent = '0 entries';
+        return;
+    }
+
+    document.getElementById('concepts-count').textContent = `${data.length} ${data.length === 1 ? 'entry' : 'entries'}`;
+
+    grid.innerHTML = data.map(c => `
+        <div class="card" data-id="${c.id}" onclick="openModal(${c.id})">
+            <span class="card-tag" data-category="${c.category}">${c.category}</span>
+            <h3>${c.title}</h3>
+            <p>${c.summary}</p>
+            <div class="card-meta">
+                <div class="card-author">
+                    <div class="avatar">${c.author[0]}</div>
+                    ${c.author}
+                </div>
+                <span>${c.date}</span>
+            </div>
+        </div>
+    `).join('');
+}
+
+function renderPeople(filtered) {
+    const grid = document.getElementById('people-grid');
+    const data = filtered || people;
+
+    document.getElementById('people-count').textContent = `${data.length} people`;
+
+    grid.innerHTML = data.map(p => `
+        <div class="person-card">
+            <div class="person-avatar ${p.type}">${p.initials}</div>
+            <h3>${p.name}</h3>
+            <div class="role">${p.role}</div>
+            <span class="person-tag">${p.area}</span>
+            <div style="margin-top: 12px;">
+                ${p.askAbout.map(topic => `<span class="person-tag">${topic}</span>`).join('')}
+            </div>
+            <div class="person-contact">
+                <a href="mailto:${p.email}" class="contact-btn">Email</a>
+                <a href="#" class="contact-btn">Slack</a>
+            </div>
+        </div>
+    `).join('');
+}
+
+// ===================== MODAL =====================
+function openModal(id) {
+    const concept = concepts.find(c => c.id === id);
+    if (!concept) return;
+
+    const referencesHTML = concept.references && concept.references.length > 0 ? `
+        <div class="references">
+            <h3>📚 References & Further Reading</h3>
+            ${concept.references.map(ref => `
+                <a href="${ref.url}" class="reference-link" target="_blank">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                        <polyline points="15 3 21 3 21 9"></polyline>
+                        <line x1="10" y1="14" x2="21" y2="3"></line>
+                    </svg>
+                    ${ref.title}
+                </a>
+            `).join('')}
+        </div>
+    ` : '';
+
+    document.getElementById('modalContent').innerHTML = `
+        <span class="card-tag" data-category="${concept.category}">${concept.category}</span>
+        <h2>${concept.title}</h2>
+        <div class="modal-subtitle">By ${concept.author} · ${concept.date} ${concept.lastUpdated ? `· Updated ${concept.lastUpdated}` : ''}</div>
+        <div class="modal-body">${concept.content}</div>
+        ${referencesHTML}
+    `;
+    document.getElementById('modal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+
+document.getElementById('modalClose').addEventListener('click', () => {
+    document.getElementById('modal').classList.remove('open');
+    document.body.style.overflow = '';
+});
+
+document.getElementById('modal').addEventListener('click', (e) => {
+    if (e.target === e.currentTarget) {
+        document.getElementById('modal').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+});
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        document.getElementById('modal').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+});
+
+// ===================== FILTERS =====================
+let activeFilter = 'all';
+
+document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeFilter = btn.dataset.filter;
+        applyFilters();
+    });
+});
+
+// ===================== SEARCH =====================
+document.getElementById('searchInput').addEventListener('input', () => {
+    applyFilters();
+});
+
+function applyFilters() {
+    const query = document.getElementById('searchInput').value.toLowerCase().trim();
+
+    let filtered = concepts;
+
+    if (activeFilter !== 'all') {
+        filtered = filtered.filter(c => c.category === activeFilter);
+    }
+
+    if (query) {
+        filtered = filtered.filter(c =>
+            c.title.toLowerCase().includes(query) ||
+            c.summary.toLowerCase().includes(query) ||
+            c.category.toLowerCase().includes(query) ||
+            c.author.toLowerCase().includes(query)
+        );
+    }
+
+    renderConcepts(filtered);
+
+    // Also filter people
+    let filteredPeople = people;
+    if (query) {
+        filteredPeople = people.filter(p =>
+            p.name.toLowerCase().includes(query) ||
+            p.role.toLowerCase().includes(query) ||
+            p.area.toLowerCase().includes(query) ||
+            p.askAbout.some(topic => topic.toLowerCase().includes(query))
+        );
+    }
+    renderPeople(filteredPeople);
+}
+
+// ===================== NAV VIEWS =====================
+function switchView(view) {
+    // Update nav active states
+    document.querySelectorAll('.nav-links a, .mobile-nav a').forEach(l => l.classList.remove('active'));
+    document.querySelectorAll(`[data-view="${view}"]`).forEach(l => l.classList.add('active'));
+
+    // Show/hide sections
+    const hero = document.getElementById('hero');
+    const mainContent = document.getElementById('mainContent');
+    const contributePage = document.getElementById('contributePage');
+    const conceptsSection = document.getElementById('concepts-section');
+    const peopleSection = document.getElementById('people-section');
+
+    if (view === 'contribute') {
+        hero.style.display = 'none';
+        mainContent.style.display = 'none';
+        contributePage.classList.add('active');
+    } else {
+        hero.style.display = 'block';
+        mainContent.style.display = 'block';
+        contributePage.classList.remove('active');
+
+        conceptsSection.style.display = (view === 'all' || view === 'concepts') ? '' : 'none';
+        peopleSection.style.display = (view === 'all' || view === 'people') ? '' : 'none';
+    }
+
+    // Close mobile menu
+    document.getElementById('mobileNav').classList.remove('open');
+    document.getElementById('mobileMenuBtn').classList.remove('open');
+}
+
+document.querySelectorAll('.nav-links a, .mobile-nav a').forEach(link => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        switchView(link.dataset.view);
+    });
+});
+
+// ===================== MOBILE MENU =====================
+document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+    const btn = document.getElementById('mobileMenuBtn');
+    const nav = document.getElementById('mobileNav');
+    btn.classList.toggle('open');
+    nav.classList.toggle('open');
+});
+
+// ===================== INIT =====================
+loadData();
+
+// ===================== ADD ENTRY FUNCTIONALITY =====================
+let referenceCount = 0;
+
+// Open Add Entry Modal
+document.getElementById('addEntryBtn').addEventListener('click', () => {
+    document.getElementById('addModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+});
+
+// Close Add Entry Modal
+document.getElementById('addModalClose').addEventListener('click', closeAddModal);
+document.getElementById('cancelBtn').addEventListener('click', closeAddModal);
+
+function closeAddModal() {
+    document.getElementById('addModal').classList.remove('open');
+    document.body.style.overflow = '';
+    document.getElementById('addEntryForm').reset();
+    document.getElementById('referencesContainer').innerHTML = '';
+    document.getElementById('jsonOutput').classList.remove('show');
+    document.getElementById('jsonOutput').textContent = '';
+    document.getElementById('copyJsonBtn').style.display = 'none';
+    document.getElementById('successMessage').classList.remove('show');
+    referenceCount = 0;
+}
+
+// Add Reference Field
+document.getElementById('addReferenceBtn').addEventListener('click', () => {
+    referenceCount++;
+    const container = document.getElementById('referencesContainer');
+    const refDiv = document.createElement('div');
+    refDiv.className = 'reference-inputs';
+    refDiv.id = `reference-${referenceCount}`;
+    refDiv.innerHTML = `
+        <div class="form-row">
+            <div class="form-group" style="margin-bottom: 0;">
+                <label>Title</label>
+                <input type="text" class="ref-title" placeholder="e.g. Internal Doc">
+            </div>
+            <div class="form-group" style="margin-bottom: 0;">
+                <label>URL</label>
+                <input type="text" class="ref-url" placeholder="https://...">
+            </div>
+        </div>
+        <button type="button" class="remove-reference-btn" onclick="removeReference('reference-${referenceCount}')">Remove</button>
+    `;
+    container.appendChild(refDiv);
+});
+
+function removeReference(id) {
+    document.getElementById(id).remove();
+}
+
+// Generate JSON
+document.getElementById('generateJsonBtn').addEventListener('click', () => {
+    const title = document.getElementById('entryTitle').value.trim();
+    const category = document.getElementById('entryCategory').value;
+    const summary = document.getElementById('entrySummary').value.trim();
+    const author = document.getElementById('entryAuthor').value.trim();
+    const date = document.getElementById('entryDate').value.trim();
+    const content = document.getElementById('entryContent').value.trim();
+
+    // Validation
+    if (!title || !category || !summary || !author || !date || !content) {
+        alert('Please fill in all required fields (*)');
+        return;
+    }
+
+    // Get references
+    const references = [];
+    const refInputs = document.querySelectorAll('.reference-inputs');
+    refInputs.forEach(refDiv => {
+        const refTitle = refDiv.querySelector('.ref-title').value.trim();
+        const refUrl = refDiv.querySelector('.ref-url').value.trim();
+        if (refTitle && refUrl) {
+            references.push({ title: refTitle, url: refUrl });
+        }
+    });
+
+    // Get next ID (concepts.length + 1)
+    const nextId = concepts.length + 1;
+
+    // Create entry object
+    const newEntry = {
+        id: nextId,
+        title: title,
+        category: category,
+        summary: summary,
+        author: author,
+        date: date,
+        lastUpdated: new Date().toISOString().split('T')[0],
+        references: references,
+        content: content
+    };
+
+    // Generate formatted JSON
+    const jsonOutput = JSON.stringify(newEntry, null, 2);
+
+    // Show JSON output
+    document.getElementById('jsonOutput').textContent = jsonOutput;
+    document.getElementById('jsonOutput').classList.add('show');
+    document.getElementById('copyJsonBtn').style.display = 'inline-block';
+
+    // Scroll to bottom
+    document.querySelector('.add-modal').scrollTop = document.querySelector('.add-modal').scrollHeight;
+});
+
+// Copy JSON to clipboard
+document.getElementById('copyJsonBtn').addEventListener('click', () => {
+    const jsonText = document.getElementById('jsonOutput').textContent;
+    navigator.clipboard.writeText(jsonText).then(() => {
+        const btn = document.getElementById('copyJsonBtn');
+        const successMsg = document.getElementById('successMessage');
+
+        btn.textContent = '✓ Copied!';
+        btn.classList.add('copied');
+        successMsg.classList.add('show');
+
+        setTimeout(() => {
+            btn.textContent = 'Copy JSON';
+            btn.classList.remove('copied');
+        }, 2000);
+
+        setTimeout(() => {
+            successMsg.classList.remove('show');
+        }, 5000);
+    });
+});
+
+// Close modal when clicking outside
+document.getElementById('addModal').addEventListener('click', (e) => {
+    if (e.target === e.currentTarget) {
+        closeAddModal();
+    }
+});
+</script>
+
+</body>
+</html>
